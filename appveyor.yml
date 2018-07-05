@@ -36,6 +36,8 @@ install:
   # Install kaitaifs
   - "python setup.py install"
 
+build_script: off
+
 test_script:
   # Currently only testing mounting
   # If mounting fails killing the process fails too
