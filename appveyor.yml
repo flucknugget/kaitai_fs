@@ -43,4 +43,4 @@ test_script:
       $pyargs = ('-m kaitaifs.cli rar ' + (Get-Location).Path + '/examples/test.rar K:');
       $fspid = (Start-Process 'python' $pyargs -passthru).ID;
       Start-Sleep -s 3;
-      Stop-Process -Id $fspid"
+      Stop-Process -Id $fspid
