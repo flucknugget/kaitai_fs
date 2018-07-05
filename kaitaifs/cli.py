@@ -9,7 +9,8 @@ from .fs.heroes_of_might_and_magic_agg_fs import (
 )
 from .fs.iso9660_fs import Iso9660FS
 
-from fuse import FUSE
+# TEMPORARY HACK
+from .fuse import FUSE
 
 FILESYSTEMS = {
     'rar': RarFS,

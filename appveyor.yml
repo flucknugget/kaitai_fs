@@ -1,0 +1,45 @@
+environment:
+
+  matrix:
+
+    # For Python versions available on Appveyor, see
+    # http://www.appveyor.com/docs/installed-software#python
+
+    - PYTHON: "C:\\Python34"
+    - PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python36"
+    - PYTHON: "C:\\Python34-x64"
+    - PYTHON: "C:\\Python35-x64"
+    - PYTHON: "C:\\Python36-x64"
+
+install:
+  # Install winfsp (Windows FUSE API) from Chocolatey
+  - "cinst winfsp"
+
+  # Prepend current Python to the PATH of this build
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+
+  # Check that we have the expected version and architecture for Python
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+
+  # Upgrade to the latest version of pip to avoid it displaying warnings
+  # about it being out of date
+  - "python -m pip install --upgrade pip"
+
+  # Upgrade to the latest version of setuptools
+  - "python -m pip install --upgrade setuptools"
+
+  # Install kaitaifs
+  - "python setup.py install"
+
+build: off
+
+test_script:
+  # Currently only testing mounting
+  # If mounting fails killing the process fails too
+  - ps: |
+      $pyargs = ('-m kaitaifs.cli rar ' + (Get-Location).Path + '/examples/test.rar K:');
+      $fspid = (Start-Process 'python' $pyargs -passthru).ID;
+      Start-Sleep -s 3;
+      Stop-Process -Id $fspid"
