@@ -1,5 +1,8 @@
-environment:
+branches:
+  only:
+    - tests
 
+environment:
   matrix:
 
     # For Python versions available on Appveyor, see
@@ -32,8 +35,6 @@ install:
 
   # Install kaitaifs
   - "python setup.py install"
-
-build: off
 
 test_script:
   # Currently only testing mounting
