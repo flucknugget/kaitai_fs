@@ -37,10 +37,36 @@ build_script:
   - "python setup.py install"
 
 test_script:
-  # Currently only testing mounting
-  # If mounting fails killing the process fails too
   - ps: |
-      $pyargs = ('-m kaitaifs.cli rar ' + (Get-Location).Path + '/examples/test.rar K:');
-      $fspid = (Start-Process 'python' $pyargs -passthru).ID;
-      Start-Sleep -s 3;
-      Stop-Process -Id $fspid
+      $pyArgs = @(
+          "-m",
+          "kaitaifs.cli",
+          "rar",
+          (Join-Path -Path (Get-Location).Path -ChildPath '/examples/test.rar'),
+          "K:"
+      )
+
+      # Start in background first so it doesn't block
+      $backgroundArgs = ($pyArgs -join ' ')
+      Start-Job -Name bg -ScriptBlock { param($backgroundArgs)
+          $procid = (Start-Process 'python' -Args $backgroundArgs -passthru).ID
+          Write-Output $procid
+      } -Arg $backgroundArgs
+
+      Wait-Job -Name bg
+      $procid = Receive-Job -Name bg
+
+      # Wait for kaitaifs
+      Start-Sleep -s 1
+
+      # Check if fs was mounted
+      if(![System.IO.File]::Exists('K:\README.rst')){
+          'ERROR'
+          # If not print output to console for debugging
+          & "python" $pyArgs
+      }
+      else {
+          'SUCCESS'
+          # Kill process to unmount
+          Stop-Process -Id $procid
+      }
