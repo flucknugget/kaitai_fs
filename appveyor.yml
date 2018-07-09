@@ -35,15 +35,15 @@ install:
   
   # Install package
   - "python setup.py install"
+  
+  # test
+  - "python -m pip freeze"
 
 build_script:
   - "echo build step is important"
 
 test_script:
   - ps: |
-      $env:Path += ";%PYTHON%;%PYTHON%\Scripts"
-      $env:Path
-      
       $pyArgs = @(
           "-m",
           "kaitaifs.cli",
