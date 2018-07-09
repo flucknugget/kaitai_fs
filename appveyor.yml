@@ -33,9 +33,6 @@ install:
   # Upgrade to the latest version of setuptools
   - "python -m pip install --upgrade setuptools"
   
-  # Install kaitaistruct
-  - "pip install kaitaistruct"
-  
   # Install package
   - "python setup.py install"
 
@@ -44,6 +41,7 @@ build_script:
 
 test_script:
   - ps: |
+      $env:Path += ";%PYTHON%;%PYTHON%\Scripts;%PATH%"
       $pyArgs = @(
           "-m",
           "kaitaifs.cli",
