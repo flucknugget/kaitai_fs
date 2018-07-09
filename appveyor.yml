@@ -42,6 +42,8 @@ build_script:
 test_script:
   - ps: |
       $env:Path += ";%PYTHON%;%PYTHON%\Scripts"
+      & python -V
+      
       $pyArgs = @(
           "-m",
           "kaitaifs.cli",
