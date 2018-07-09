@@ -2,7 +2,7 @@
 import errno
 import itertools
 
-from fuse import FuseOSError, Operations
+from .fuse import FuseOSError, Operations
 
 
 class KaitaiSimpleFS(Operations):
