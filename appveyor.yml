@@ -33,7 +33,10 @@ install:
   # Upgrade to the latest version of setuptools
   - "python -m pip install --upgrade setuptools"
   
-  # Install
+  # Install kaitaistruct
+  - "pip install kaitaistruct"
+  
+  # Install package
   - "python setup.py install"
 
 build_script:
