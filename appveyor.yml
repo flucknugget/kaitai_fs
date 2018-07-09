@@ -37,6 +37,7 @@ install:
   - "python setup.py install"
 
 build_script:
+  - "echo build step is important"
 
 test_script:
   - ps: |
