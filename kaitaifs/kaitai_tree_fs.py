@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from fuse import Operations
+from .fuse import Operations
 
 
 class KaitaiTreeFS(Operations):
